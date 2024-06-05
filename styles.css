@@ -206,7 +206,7 @@ font-family: 'Kumbh Sans', sans-serif;
     align-items: center;
     justify-self: center;
     margin: 0;
-    height: 100%;
+    height: 100vh;
     background-color: #141414;
     z-index: 1;
     width: 100%;

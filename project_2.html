@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="https://scottwmson90.github.io/datacenter/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="" id="navbar__logo">Williamson Home Labs</a>
+                <div class="navbar__toggle" id="mobilemenu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span> 
+                </div>
+                <ul class="navbar__menu">
+                   <li class="navbar__item">
+                    <a href="https://scottwmson90.github.io/datacenter/index.html" class="navbar__links">Home</a>
+                   </li> 
+                   <li class="navbar__item">
+                    <a href="https://scottwmson90.github.io/datacenter/roadmap.html" class="navbar__links">Roadmap</a>
+                   </li>
+                   <li class="navbar__btn">
+                    <a href="https://scottwmson90.github.io/datacenter/projects.html" class="navbar__links">Projects</a>
+                    </li>
+                </ul>
+         </div>
+    </nav>
+    <!-- Main Body-->
+    <div class="main">
+        <div class="main__container">
+            <div class="main__content">
+                <H1>SIEM System Event and Incident</H1>
+                <p></p>
+                <h2>Statement of Work</h2>
+                <p>Install and configure Security Event and Incident Manager on CentOS VM server to facilitate environment monitoring and security controls.</p>
+                <h2>Hardware</h2>
+                <p>3x Dell Optiplex 3070: 3GHz i5-9500 CPU, 32GB DDR4 RAM, 500BG NVMe</p>
+                <h2>Operating Systems and Software</h2>
+                <p>CentOS 7</p>
+                <p>Wazuh 4.8 Indexer</p>
+                <p>Wazuh 4.8 Server</p>
+                <p>Wazuh 4.8 Dashboard</p>
+                <p>Wazuh Agent</p>
+                <h2>Process</h2>
+                <p>Well, Thomas Edison is credited as having said something to the effect, “I have not failed 10,000 times. I have found 10,000 ways that do not work.” We could argue the details. Some say, “100 ways”, some say “1,000 ways”. The Rutger’s Archives has a magazine interview putting the number closer to 3,000 failures for the Light Bulb. I’m only up to a few dozen failures learning my way around Linux generally and Proxmox specifically. Let’s get into it. </p>
+                <p>I want to set up a System Information and Event Manager, a SIEM. System Administrators and Cyber Security Analysts rely on this tool to gather log data throughout the environment and put it into a centralized, query enabled repository to monitor for abnormal activity and Indicators of Compromise. </p>
+                <p>After some research, I settled on Wazuh. “Wazuh is a free and open-source security platform that unifies XDR and SIEM capabilities. It protects workloads across on-premises, virtualized, containerized, and cloud-based environments.” Wazuh server components are supported by CentOS, Ubuntu, Red Hat and Amazon Linux2. The Wazuh agent is available for most operating systems, MacOS, Windows and Linux as well as Solaris, AIX and HP-UX. I have selected the CentOS server I built for this installation. </p>
+                <p>I signed into CentOS as Root and run “yum install updates” & “yum install upgrades”. We already have problems. Yum can’t reach the repositories to verify the packages are up to date. I ping Google. “Name or service not found.” I ping 8.8.8.8, “network unreachable”. DNS has been ruled out. I run “ip a” to check my IP Address. I don’t have one. </p>
+                <p>My Windows machines on the other host are working fine. Proxmox is talking to the CentOS VM through the Console. I think my network config on Proxmox is correct. I started to Google around. Maybe my VM bridge is misconfigured. I tried setting a Static IP on CentOS. No connectivity. I tried creating a vLan on the VM bridge. Broke my access to the Proxmox Dashboard but didn’t fix the VM’s internet access. Rolled back that mess and went looking again. Found a recommendation to enable IPv4 forwarding on the VMHost to allow DHCP. Tried that setting. Nope. Finally, Reddit turned up an answer. An Admin had a similar issue. They had selected a virtual NIC for the VM that matched the Physical Host NIC and the VM had no network connectivity. The solution was to swap the Virtual NIC for a different model. I changed the VM’s NIC from VirtIO (paravirtualized) to Realtek.   Restart the VM. I have network connectivity. </p>
+                <p>Run my updates successfully. Another attractive feature of Wazuh, it has an automated installation package. A handful of commands, a couple minutes and you’re up and running. I run the two Curl commands to pull down the Wazuh installer and config file. Open Config.yml in VI and enter my IP address for my server, save and exit. I started the first BASH script and installed the Wazuh Indexer. I started my Wazuh Indexer Cluster with another BASH script. Not much of a cluster, I’m only using one server to monitor a dozen or so devices on my home network. Wazuh documentation offers a method to test the Indexer and cluster connectivity, all good. </p>
+                <p> I started the second BASH script and installed the Wazuh Server. I started the final BASH script and installed the Wazuh Dashboard. I tried to connect to my Wazuh dashboard from my workstation. Wouldn’t load. Following the install guide for Wazuh, I had put in my IP address during the install but forgot to update the hostname from the placeholders.  Tried to run through the install again but kept stumbling onto errors. Shutdown the VM and delete it. </p>
+
+                <img src="https://scottwmson90.github.io/datacenter/20240605_134806.jpg" alt="Datacenter" style="width:500px;height:600px>
+            </div>
+        </div>
+    </div>
+ <!--Footer Section--> 
+ <div class="footer__container">
+    <div class="footer__links">
+        <div class="footer__link--wrapper">
+            <div class="footer__link--items">
+                
+            </div>
+        </div>
+    </div>
+ </div>
+</body>
+</html>
